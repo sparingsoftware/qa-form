@@ -68,6 +68,3 @@ Vue.config.productionTip = false;
 new Vue({
   render: (h) => h(App),
 }).$mount('#app');
-
-document.cookie =
-  'Jeśli widzisz tę wiadomość, wpisz do listy błędów: Brak informacji na stronie o korzystaniu z ciasteczek';

@@ -4,7 +4,7 @@
       <form @submit.prevent="onSubmit">
         <ValidationProvider
           name="Imię"
-          rules="required|alpha_spaces"
+          rules="required"
           v-slot="{ errors }"
           class="input-wrapper"
         >
@@ -119,9 +119,13 @@
               ></div>
               <span class="checkbox-text">
                 Akceptuję
-                <a href="/regulamin" @click.prevent="onLinkClick">regulamin</a>
+                <a href="/regulamin" @click.prevent="onLinkClick('regulaminu')"
+                  >regulamin</a
+                >
                 oraz
-                <a href="/polityka-prywatnosci" @click.prevent="onLinkClick"
+                <a
+                  href="/polityka-prywatnosci"
+                  @click.prevent="onLinkClick('polityki prywatności')"
                   >politykę prywatności</a
                 >
                 *<br />
@@ -160,7 +164,7 @@
         * Pola wymagane
 
         <div class="btn-wrapper">
-          <button type="submit" class="btn">Zajerestruj się</button>
+          <button type="submit" class="btn">Załóż konto</button>
         </div>
       </form>
     </ValidationObserver>
@@ -183,9 +187,9 @@ export default {
     };
   },
   methods: {
-    onLinkClick() {
+    onLinkClick(czego) {
       alert(
-        'Jeśli widzisz tę wiadomość, wpisz w listę błędów:\nNiedziałające linki do regulaminu i polityki prywatności'
+        `Jeśli widzisz tę wiadomość, wpisz w listę błędów:\nNiedziałający link do ${czego}`
       );
     },
     async onSubmit() {

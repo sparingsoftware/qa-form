@@ -1,27 +1,39 @@
 <template>
-  <div class="app-wrap" :class="{ 'app-wrap--center-content': user }">
-    <div class="container" v-if="!user">
-      <h1>Załóż konto</h1>
-      <p>
-        Dzięki aplikacji możesz również ubiegać się o świadczenia dla swoich
-        bliskich, dla których jesteś opiekunem prawnym.
-      </p>
-      <p>
-        Uzupełnij pola poniżej swoimi danymi, a w kolejnych krokach zdecyduj czy
-        konto będzie należeć do Ciebie czy do osoby bliskiej, dla której jesteś
-        opiekunem prawnym
-      </p>
-      <Form class="form" @submit="(submittedUser) => (user = submittedUser)" />
+  <div>
+    <div class="cookies">
+      Korzystając ze strony Heals.pl akceptujesz naszą
+      <a href="/polityka-prywatnosci" @click.prevent="onLinkClick"
+        >Politykę Prywatności</a
+      >. Możesz określić warunki przechowywania lub dostępu do plików cookies w
+      Twojej przeglądarce.
     </div>
+    <div class="app-wrap">
+      <div class="container" v-if="!user">
+        <h1>Załóz konto</h1>
+        <p>
+          Dzięki aplikacji możesz również ubiegać się o świadczenia dla swoich
+          bliskich, dla których jesteś opiekunem prawnym.
+        </p>
+        <p>
+          Uzupełnij pola poniżej swoimi danymi, a w kolejnych krokach zdecyduj
+          czy konto będzie należeć do Ciebie czy do osoby bliskiej, dla której
+          jesteś opiekunem prawnym
+        </p>
+        <Form
+          class="form"
+          @submit="(submittedUser) => (user = submittedUser)"
+        />
+      </div>
 
-    <div class="container" v-if="user">
-      <h1>{{ user.firstName }} , dziękujemy za rejestrację!</h1>
-      <p>
-        Na Twój adres email
-        <span class="email">{{ user.email }}</span> wysłaliśmy wiadomość z
-        linkiem aktywującym konto
-        <br />
-      </p>
+      <div class="container" v-if="user">
+        <h1>{{ user.firstName }} , dziękujemy za rejestrację!</h1>
+        <p>
+          Na Twój adres email
+          <span class="email">{{ user.email }}</span> wysłaliśmy wiadomość z
+          linkiem aktywującym konto
+          <br />
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +50,13 @@ export default {
       user: null,
     };
   },
+  methods: {
+    onLinkClick() {
+      alert(
+        'Jeśli widzisz tę wiadomość, wpisz w listę błędów:\nNiedziałające linki do regulaminu i polityki prywatności'
+      );
+    },
+  },
 };
 </script>
 
@@ -52,6 +71,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   color: white;
   margin: 40px;
+  overflow-y: scroll;
 }
 
 @media (max-width: 1024px) {
@@ -87,7 +107,6 @@ h4 {
 .app-wrap {
   background: #065a57;
   padding: 60px 0 100px;
-  min-height: calc(100vh - 80px);
 }
 
 @media (max-width: 1024px) {
@@ -118,7 +137,7 @@ h4 {
 .btn {
   text-align: center;
   padding: 15px 30px;
-  border-radius: 25px;
+  border-radius: 5px;
   border: 2px solid white;
   text-transform: uppercase;
   color: #065a57;
@@ -138,5 +157,39 @@ h4 {
 
 .email {
   color: #46ccc8;
+}
+
+.cookies {
+  text-align: center;
+  border: 2px solid #065a57;
+  color: #065a57;
+  padding: 20px;
+
+  width: calc(100%);
+  margin: 40px auto 40px;
+
+  position: relative;
+}
+
+.cookies a {
+  color: #065a57;
+}
+
+.cookies::after {
+  content: 'x';
+  position: absolute;
+  right: -15px;
+  top: -15px;
+
+  width: 30px;
+  height: 30px;
+  background: #065a57;
+  color: white;
+
+  border-radius: 15px;
+  font-weight: 700;
+  line-height: 26px;
+
+  cursor: pointer;
 }
 </style>
