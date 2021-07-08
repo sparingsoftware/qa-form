@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ValidationObserver tag="div" v-slot="{ handleSubmit }">
-      <form @submit.prevent="handleSubmit(onSubmit)">
+    <ValidationObserver ref="form" tag="div">
+      <form @submit.prevent="onSubmit">
         <ValidationProvider
           name="Imię"
           rules="required|alpha_spaces"
@@ -9,7 +9,7 @@
           class="input-wrapper"
         >
           <label class="label">
-            Imię*<br />
+            Imię<br />
             <input
               class="input"
               v-model="firstName"
@@ -28,7 +28,7 @@
           class="input-wrapper"
         >
           <label class="label">
-            Nazwisko*<br />
+            Nazwisko<br />
             <input
               class="input"
               v-model="lastName"
@@ -103,24 +103,51 @@
           rules="checkbox-required"
           v-slot="{ errors }"
           class="input-wrapper"
+          name="rodo"
         >
           <label class="label">
             <div class="fake-input-wrap">
-              <input class="input" v-model="rodo" type="checkbox" />
-              <div class="fake-input"></div>
+              <input
+                class="input"
+                v-model="rodo"
+                type="checkbox"
+                tabindex="-1"
+              />
+              <div
+                class="fake-input"
+                :class="{ 'fake-input--ff': isFirefox }"
+              ></div>
               <span class="checkbox-text">
-                Akceptuję regulamin oraz politykę prywatności i RODO. *<br />
+                Akceptuję
+                <a href="/regulamin" @click.prevent="onLinkClick">regulamin</a>
+                oraz
+                <a href="/polityka-prywatnosci" @click.prevent="onLinkClick"
+                  >politykę prywatności</a
+                >
+                *<br />
               </span>
             </div>
             <span class="errors">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" class="input-wrapper">
+        <ValidationProvider
+          v-slot="{ errors }"
+          class="input-wrapper"
+          name="allowSend"
+        >
           <label class="label">
             <div class="fake-input-wrap">
-              <input class="input" v-model="allowInfo" type="checkbox" />
-              <div class="fake-input"></div>
+              <input
+                class="input"
+                v-model="allowInfo"
+                type="checkbox"
+                tabindex="-1"
+              />
+              <div
+                class="fake-input"
+                :class="{ 'fake-input--ff': isFirefox }"
+              ></div>
               <span class="checkbox-text">
                 Wyrażam zgodę na otrzymywanie informacji na podany przeze mnie
                 adres e‑mail.
@@ -129,6 +156,8 @@
             <span class="errors">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
+
+        * Pola wymagane
 
         <div class="btn-wrapper">
           <button type="submit" class="btn">Zajerestruj się</button>
@@ -142,6 +171,8 @@
 export default {
   data() {
     return {
+      numberOfClickInSubmit: 0,
+      isFirefox: navigator.userAgent.toLowerCase().includes('firefox'),
       firstName: '',
       lastName: '',
       email: '',
@@ -152,11 +183,29 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      this.$emit('submit', {
-        firstName: this.firstName,
-        email: this.email,
-      });
+    onLinkClick() {
+      alert(
+        'Jeśli widzisz tę wiadomość, wpisz w listę błędów:\nNiedziałające linki do regulaminu i polityki prywatności'
+      );
+    },
+    async onSubmit() {
+      await this.$refs.form.validate();
+      const errors = { ...this.$refs.form.errors };
+      delete errors.rodo;
+
+      const isValid = Object.values(errors).every(
+        (errors) => errors.length === 0
+      );
+
+      if (isValid) {
+        this.numberOfClickInSubmit += 1;
+        if (this.numberOfClickInSubmit < 2) return;
+
+        this.$emit('submit', {
+          firstName: this.firstName,
+          email: this.email,
+        });
+      }
     },
   },
 };
@@ -184,6 +233,7 @@ input[type='checkbox'] {
   position: absolute;
   left: 0;
   top: 0;
+  z-index: -1;
 }
 
 input[type='checkbox']:focus + .fake-input {
@@ -216,6 +266,11 @@ input[type='checkbox']:checked + .fake-input::after {
   height: 20px;
   border: 1px solid white;
   margin-right: 20px;
+}
+
+.fake-input--ff::after {
+  height: 15px !important;
+  left: 100% !important;
 }
 
 .checkbox-text {

@@ -15,7 +15,7 @@
     </div>
 
     <div class="container" v-if="user">
-      <h1>{{ user.firstName }}, dziękujemy za rejestrację!</h1>
+      <h1>{{ user.firstName }} , dziękujemy za rejestrację!</h1>
       <p>
         Na Twój adres email
         <span class="email">{{ user.email }}</span> wysłaliśmy wiadomość z
@@ -58,11 +58,22 @@ body {
   body {
     margin: 0;
     background: #065a57;
+    width: calc(100% + 20px);
   }
 }
 
 h1 {
   font-size: 46px;
+}
+
+a {
+  color: white;
+  text-decoration: underline;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
 }
 
 h1,
@@ -77,6 +88,12 @@ h4 {
   background: #065a57;
   padding: 60px 0 100px;
   min-height: calc(100vh - 80px);
+}
+
+@media (max-width: 1024px) {
+  .app-wrap {
+    padding: 20px;
+  }
 }
 
 .app-wrap--center-content {
