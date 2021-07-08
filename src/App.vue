@@ -53,7 +53,7 @@ export default {
   methods: {
     onLinkClick() {
       alert(
-        'Jeśli widzisz tę wiadomość, wpisz w listę błędów:\nNiedziałające linki do regulaminu i polityki prywatności'
+        'Jeśli widzisz tę wiadomość, wpisz w listę błędów:\nNiedziałający link do polityki prywatności'
       );
     },
   },
