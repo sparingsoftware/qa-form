@@ -4,12 +4,12 @@
       <form @submit.prevent="onSubmit">
         <ValidationProvider
           name="Imię"
-          rules="required"
+          rules="required|alpha_spaces_dashes"
           v-slot="{ errors }"
           class="input-wrapper"
         >
           <label class="label">
-            Imię<br />
+            Imię*<br />
             <input
               class="input"
               v-model="firstName"
@@ -23,12 +23,12 @@
 
         <ValidationProvider
           name="Nazwisko"
-          rules="required|alpha_spaces"
+          rules="required|alpha_spaces_dashes"
           v-slot="{ errors }"
           class="input-wrapper"
         >
           <label class="label">
-            Nazwisko<br />
+            Nazwisko*<br />
             <input
               class="input"
               v-model="lastName"
@@ -107,23 +107,14 @@
         >
           <label class="label">
             <div class="fake-input-wrap">
-              <input
-                class="input"
-                v-model="rodo"
-                type="checkbox"
-                tabindex="-1"
-              />
-              <div
-                class="fake-input"
-                :class="{ 'fake-input--ff': isFirefox }"
-              ></div>
+              <input class="input" v-model="rodo" type="checkbox" />
+              <div class="fake-input"></div>
               <span class="checkbox-text">
                 Akceptuję
                 <a href="/regulamin" @click.prevent="onLinkClick('regulaminu')"
                   >regulamin</a
                 >
-                oraz
-                <a
+                oraz&nbsp;<a
                   href="/polityka-prywatnosci"
                   @click.prevent="onLinkClick('polityki prywatności')"
                   >politykę prywatności</a
@@ -142,19 +133,11 @@
         >
           <label class="label">
             <div class="fake-input-wrap">
-              <input
-                class="input"
-                v-model="allowInfo"
-                type="checkbox"
-                tabindex="-1"
-              />
-              <div
-                class="fake-input"
-                :class="{ 'fake-input--ff': isFirefox }"
-              ></div>
+              <input class="input" v-model="allowInfo" type="checkbox" />
+              <div class="fake-input"></div>
               <span class="checkbox-text">
-                Wyrażam zgodę na otrzymywanie informacji na podany przeze mnie
-                adres e‑mail.
+                Wyrażam zgodę na&nbsp;otrzymywanie informacji na&nbsp;podany
+                przeze mnie&nbsp;adres e‑mail.
               </span>
             </div>
             <span class="errors">{{ errors[0] }}</span>
@@ -164,7 +147,7 @@
         * Pola wymagane
 
         <div class="btn-wrapper">
-          <button type="submit" class="btn">Załóż konto</button>
+          <button type="submit" class="btn">Zarejestruj</button>
         </div>
       </form>
     </ValidationObserver>
@@ -175,8 +158,6 @@
 export default {
   data() {
     return {
-      numberOfClickInSubmit: 0,
-      isFirefox: navigator.userAgent.toLowerCase().includes('firefox'),
       firstName: '',
       lastName: '',
       email: '',
@@ -195,16 +176,12 @@ export default {
     async onSubmit() {
       await this.$refs.form.validate();
       const errors = { ...this.$refs.form.errors };
-      delete errors.rodo;
 
       const isValid = Object.values(errors).every(
         (errors) => errors.length === 0
       );
 
       if (isValid) {
-        this.numberOfClickInSubmit += 1;
-        if (this.numberOfClickInSubmit < 2) return;
-
         this.$emit('submit', {
           firstName: this.firstName,
           email: this.email,
@@ -270,11 +247,6 @@ input[type='checkbox']:checked + .fake-input::after {
   height: 20px;
   border: 1px solid white;
   margin-right: 20px;
-}
-
-.fake-input--ff::after {
-  height: 15px !important;
-  left: 100% !important;
 }
 
 .checkbox-text {

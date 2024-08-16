@@ -1,24 +1,19 @@
 <template>
   <div>
-    <div class="cookies">
-      Korzystając ze strony Heals.pl akceptujesz naszą
-      <a href="/polityka-prywatnosci" @click.prevent="onLinkClick"
-        >Politykę Prywatności</a
-      >. Możesz określić warunki przechowywania lub dostępu do plików cookies w
-      Twojej przeglądarce.
-    </div>
     <div class="app-wrap">
       <div class="container" v-if="!user">
-        <h1>Załóz konto</h1>
+        <h1>Załóż konto</h1>
         <p>
-          Dzięki aplikacji możesz również ubiegać się o świadczenia dla swoich
-          bliskich, dla których jesteś opiekunem prawnym.
+          Dzięki aplikacji możesz również ubiegać się&nbsp;o&nbsp;świadczenia
+          dla&nbsp;swoich bliskich, dla&nbsp;których jesteś opiekunem prawnym.
         </p>
         <p>
-          Uzupełnij pola poniżej swoimi danymi, a w kolejnych krokach zdecyduj
-          czy konto będzie należeć do Ciebie czy do osoby bliskiej, dla której
-          jesteś opiekunem prawnym
+          Uzupełnij pola poniżej swoimi danymi, a&nbsp;w&nbsp;kolejnych krokach
+          zdecyduj czy&nbsp;konto będzie należeć do&nbsp;Ciebie
+          czy&nbsp;do&nbsp;osoby bliskiej, dla&nbsp;której jesteś opiekunem
+          prawnym
         </p>
+
         <Form
           class="form"
           @submit="(submittedUser) => (user = submittedUser)"
@@ -26,12 +21,11 @@
       </div>
 
       <div class="container" v-if="user">
-        <h1>{{ user.firstName }} , dziękujemy za rejestrację!</h1>
+        <h1>{{ user.firstName }}, dziękujemy za&nbsp;rejestrację!</h1>
         <p>
-          Na Twój adres email
-          <span class="email">{{ user.email }}</span> wysłaliśmy wiadomość z
-          linkiem aktywującym konto
-          <br />
+          Na&nbsp;Twój adres email
+          <span class="email">{{ user.email }}</span> wysłaliśmy wiadomość
+          z&nbsp;linkiem aktywującym konto<br />
         </p>
       </div>
     </div>
@@ -78,7 +72,6 @@ body {
   body {
     margin: 0;
     background: #065a57;
-    width: calc(100% + 20px);
   }
 }
 

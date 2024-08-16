@@ -57,6 +57,13 @@ extend('password', (value) => {
   return `Hasło musi zawierać: ${requirements.join(', ')}!`;
 });
 
+extend('alpha_spaces_dashes', (value) => {
+  return (
+    /^[\p{L} -]*$/u.test(value) ||
+    'To pole może zawierać tylko litery, spacje i "-"'
+  );
+});
+
 localize('pl', pl);
 
 // Install components globally
