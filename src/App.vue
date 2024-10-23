@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div data-test-id="app-container">
     <div class="app-wrap">
-      <div class="container" v-if="!user">
-        <h1>Załóż konto</h1>
-        <p>
+      <!-- Registration Container -->
+      <div class="container" v-if="!user" data-test-id="registration-container">
+        <h1 data-test-id="registration-header">Załóż konto</h1>
+        <p data-test-id="registration-instructions">
           Uzupełnij pola poniżej swoimi danymi, a&nbsp;w&nbsp;kolejnych krokach
           zdecyduj czy&nbsp;konto będzie należeć do&nbsp;Ciebie
           czy&nbsp;do&nbsp;osoby bliskiej, dla&nbsp;której jesteś opiekunem
@@ -13,14 +14,16 @@
         <Form
           class="form"
           @submit="(submittedUser) => (user = submittedUser)"
+          data-test-id="registration-form"
         />
       </div>
 
-      <div class="container" v-if="user">
-        <h1>{{ user.firstName }}, dziękujemy za&nbsp;rejestrację!</h1>
-        <p>
+      <!-- Success Container -->
+      <div class="container" v-if="user" data-test-id="success-container">
+        <h1 data-test-id="success-header">{{ user.firstName }}, dziękujemy za&nbsp;rejestrację!</h1>
+        <p data-test-id="success-message">
           Na&nbsp;Twój adres email
-          <span class="email">{{ user.email }}</span> wysłaliśmy wiadomość
+          <span class="email" data-test-id="user-email">{{ user.email }}</span> wysłaliśmy wiadomość
           z&nbsp;linkiem aktywującym konto<br />
         </p>
       </div>
@@ -51,9 +54,7 @@ export default {
 </script>
 
 <style>
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 

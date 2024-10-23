@@ -2,214 +2,136 @@
   <div>
     <ValidationObserver ref="form" tag="div">
       <form @submit.prevent="onSubmit">
-        <ValidationProvider
-          name="Imię"
-          rules="required|alpha_spaces_dashes"
-          v-slot="{ errors }"
-          class="input-wrapper"
-        >
+        <!-- Imię field -->
+        <ValidationProvider name="Imię" rules="required|alpha_spaces_dashes" v-slot="{ errors }" class="input-wrapper">
           <label class="label">
             Imię*<br />
-            <input
-              class="input"
-              v-model="firstName"
-              type="text"
-              placeholder="Imię"
-              autocomplete="name"
-            />
-            <span class="errors">{{ errors[0] }}</span>
+            <input class="input" v-model="firstName" type="text" placeholder="Imię" autocomplete="name" data-test-id="first-name-input" />
+            <span class="errors" data-test-id="first-name-error">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
-        <ValidationProvider
-          name="Nazwisko"
-          rules="required|alpha_spaces_dashes"
-          v-slot="{ errors }"
-          class="input-wrapper"
-        >
+        <!-- Nazwisko field -->
+        <ValidationProvider name="Nazwisko" rules="required|alpha_spaces_dashes" v-slot="{ errors }" class="input-wrapper">
           <label class="label">
             Nazwisko*<br />
-            <input
-              class="input"
-              v-model="lastName"
-              type="text"
-              placeholder="Nazwisko"
-              autocomplete="family-name"
-            />
-            <span class="errors">{{ errors[0] }}</span>
+            <input class="input" v-model="lastName" type="text" placeholder="Nazwisko" autocomplete="family-name" data-test-id="last-name-input" />
+            <span class="errors" data-test-id="last-name-error">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
-        <ValidationProvider
-          name="E-mail"
-          rules="required|email-abstract"
-          v-slot="{ errors }"
-          class="input-wrapper"
-        >
+        <!-- E-mail field -->
+        <ValidationProvider name="E-mail" rules="required|email-abstract" v-slot="{ errors }" class="input-wrapper">
           <label class="label">
             Adres e-mail*<br />
-            <input
-              class="input"
-              v-model="email"
-              type="email"
-              placeholder="Twój adres e-mail"
-              autocomplete="email"
-            />
-            <span class="errors">{{ errors[0] }}</span>
+            <input class="input" v-model="email" type="email" placeholder="Twój adres e-mail" autocomplete="email" data-test-id="email-input" />
+            <span class="errors" data-test-id="email-error">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
-        <ValidationProvider
-          name="password"
-          rules="password|required"
-          v-slot="{ errors }"
-          class="input-wrapper"
-        >
+        <!-- Password field -->
+        <ValidationProvider name="password" rules="password|required" v-slot="{ errors }" class="input-wrapper">
           <label class="label">
             Hasło*<br />
-            <input
-              class="input"
-              v-model="password"
-              type="password"
-              placeholder="Hasło"
-              autocomplete="new-password"
-            />
-            <span class="errors">{{ errors[0] }}</span>
+            <input class="input" v-model="password" type="password" placeholder="Hasło" autocomplete="new-password" data-test-id="password-input" />
+            <span class="errors" data-test-id="password-error">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
-        <ValidationProvider
-          name="Powtórz hasło"
-          rules="required|password-confirmed:password"
-          v-slot="{ errors }"
-          class="input-wrapper"
-        >
+        <!-- Repeat Password field -->
+        <ValidationProvider name="Powtórz hasło" rules="required|password-confirmed:password" v-slot="{ errors }" class="input-wrapper">
           <label class="label">
             Powtórz hasło*<br />
-            <input
-              class="input"
-              v-model="repassword"
-              type="password"
-              placeholder="Powtórz hasło"
-              autocomplete="new-password"
-            />
-            <span class="errors">{{ errors[0] }}</span>
+            <input class="input" v-model="repassword" type="password" placeholder="Powtórz hasło" autocomplete="new-password" data-test-id="confirm-password-input" />
+            <span class="errors" data-test-id="confirm-password-error">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
-        <ValidationProvider
-          name="Data urodzenia"
-          rules="required"
-          v-slot="{ errors }"
-          class="input-wrapper"
-        >
+        <!-- Date of Birth field -->
+        <ValidationProvider name="Data urodzenia" rules="required" v-slot="{ errors }" class="input-wrapper">
           <label class="label">
             Data urodzenia*<br />
-            <date-picker
-              class="datepicker"
-              v-model="dateOfBirth"
-              type="date"
-              placeholder="Data urodzenia"
-            ></date-picker>
-            <span class="errors">{{ errors[0] }}</span>
+            <date-picker class="datepicker" v-model="dateOfBirth" type="date" placeholder="Data urodzenia" data-test-id="date-of-birth-input"></date-picker>
+            <span class="errors" data-test-id="date-of-birth-error">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
+        <!-- Language Selection -->
         <div class="input-wrapper">
           <label class="label">
             Język<br />
-            <select v-model="language" class="input select">
+            <select v-model="language" class="input select" data-test-id="language-select">
               <option value="" selected>Wybierz język</option>
-              <option
-                :value="code"
-                :key="code"
-                v-for="(name, code) in languageNames"
-              >
-                {{ name }}
-              </option>
+              <option :value="code" :key="code" v-for="(name, code) in languageNames">{{ name }}</option>
             </select>
           </label>
         </div>
 
-        <ValidationProvider
-          name="Numer telefonu"
-          rules="phone"
-          v-slot="{ errors }"
-          class="input-wrapper"
-        >
-          <div class="label">
+        <!-- Phone Number field -->
+        <ValidationProvider name="Numer telefonu" rules="phone" v-slot="{ errors }" class="input-wrapper">
+          <label class="label">
             Numer telefonu<br />
-            <vue-tel-input
-              class="phone-input"
-              v-model="phoneNumber"
-              default-country="pl"
-              :input-options="{
-                placeholder: 'Numer telefonu',
-                disabledFormatting: true,
-              }"
-            />
-            <span class="errors" v-if="isPhoneInputInitialized">{{
-              errors[0]
-            }}</span>
-          </div>
-        </ValidationProvider>
-
-        <br />
-
-        <ValidationProvider
-          rules="checkbox-required"
-          v-slot="{ errors }"
-          class="input-wrapper"
-          name="rodo"
-        >
-          <label class="label">
-            <div class="fake-input-wrap">
-              <input class="input" v-model="rodo" type="checkbox" />
-              <div class="fake-input"></div>
-              <span class="checkbox-text">
-                Akceptuję
-                <a href="/regulamin" @click.prevent="onLinkClick('regulaminu')"
-                  >regulamin</a
-                >
-                oraz&nbsp;<a
-                  href="/polityka-prywatnosci"
-                  @click.prevent="onLinkClick('polityki prywatności')"
-                  >politykę prywatności</a
-                >
-                *<br />
-              </span>
-            </div>
-            <span class="errors">{{ errors[0] }}</span>
+            <vue-tel-input class="phone-input" v-model="phoneNumber" default-country="pl" :input-options="{ placeholder: 'Numer telefonu', disabledFormatting: true }" data-test-id="phone-input"></vue-tel-input>
+            <span class="errors" v-if="isPhoneInputInitialized" data-test-id="phone-error">{{ errors[0] }}</span>
           </label>
         </ValidationProvider>
 
-        <ValidationProvider
-          v-slot="{ errors }"
-          class="input-wrapper"
-          name="allowSend"
-        >
-          <label class="label">
-            <div class="fake-input-wrap">
-              <input class="input" v-model="allowInfo" type="checkbox" />
-              <div class="fake-input"></div>
-              <span class="checkbox-text">
-                Wyrażam zgodę na&nbsp;otrzymywanie informacji na&nbsp;podany
-                przeze mnie&nbsp;adres e‑mail.
-              </span>
-            </div>
-            <span class="errors">{{ errors[0] }}</span>
-          </label>
-        </ValidationProvider>
+        <!-- Rodo Checkbox -->
+<ValidationProvider
+  rules="checkbox-required"
+  v-slot="{ errors }"
+  class="input-wrapper"
+  name="rodo"
+>
+  <label class="label" data-test-id="rodo-checkbox-label">
+    <div class="fake-input-wrap">
+      <input
+        class="input"
+        v-model="rodo"
+        type="checkbox"
+      />
+      <div class="fake-input" data-test-id="rodo-checkbox"></div>
+      <span class="checkbox-text">
+        Akceptuję <a href="/regulamin" @click.prevent="onLinkClick('regulaminu')" data-test-id="rodo-regulamin-link">regulamin</a> oraz&nbsp;
+        <a href="/polityka-prywatnosci" @click.prevent="onLinkClick('polityki prywatności')" data-test-id="rodo-polityka-link">politykę prywatności</a> *
+      </span>
+    </div>
+    <span class="errors" data-test-id="rodo-error">{{ errors[0] }}</span>
+  </label>
+</ValidationProvider>
 
-        * Pola wymagane
+<!-- Allow Info Checkbox -->
+<ValidationProvider
+  v-slot="{ errors }"
+  class="input-wrapper"
+  name="allowSend"
+>
+  <label class="label" data-test-id="allow-info-checkbox-label">
+    <div class="fake-input-wrap">
+      <input
+        class="input"
+        v-model="allowInfo"
+        type="checkbox"
+      />
+      <div class="fake-input" data-test-id="allow-info-checkbox"></div>
+      <span class="checkbox-text">
+        Wyrażam zgodę na&nbsp;otrzymywanie informacji na&nbsp;podany
+        przeze mnie&nbsp;adres e‑mail.
+      </span>
+    </div>
+    <span class="errors" data-test-id="allow-info-error">{{ errors[0] }}</span>
+  </label>
+</ValidationProvider>
 
+        <!-- Submit Button -->
         <div class="btn-wrapper">
-          <button type="submit" class="btn">Zarejestruj</button>
+          <button type="submit" class="btn" data-test-id="submit-button">Zarejestruj</button>
         </div>
       </form>
     </ValidationObserver>
   </div>
 </template>
+
 
 <script>
 import DatePicker from 'vue2-datepicker';

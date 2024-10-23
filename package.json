@@ -16,6 +16,7 @@
     "vue2-datepicker": "^3.11.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
     "@playwright/test": "^1.48.1",
     "@types/node": "^22.7.9",
     "@vue/cli-plugin-babel": "^4.5.13",
